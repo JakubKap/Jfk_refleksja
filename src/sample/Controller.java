@@ -39,6 +39,9 @@ public class Controller implements Initializable {
     @FXML
     TextField textFieldArg2;
 
+    @FXML
+    TextField textFieldRes;
+
 
     MethodsImport methodsImport;
 
@@ -65,6 +68,7 @@ public class Controller implements Initializable {
 
         listView.getItems().clear();
 
+
         methodsImport.importClasses(selectedDirectory);
 
         //zapełnienie ListView nazwami metod
@@ -87,6 +91,27 @@ public class Controller implements Initializable {
                 textFieldArg1.setDisable(false);
                 textFieldArg2.setDisable(false);
             }
+
+       /* Class[] parameterTypes = methodList.get(listView.getSelectionModel().getSelectedIndex()).getParameterTypes();
+
+        for(Class parameterType : parameterTypes)
+            System.out.println(parameterType.getName());*/
+
+    }
+
+    public void btnRunClicked(ActionEvent event){
+
+        String par1 = textFieldArg1.getText();
+        String par2 = textFieldArg2.getText();
+
+        Object[] args = new Object[]{par1, par2};
+
+        Method method = methodList.get(listView.getSelectionModel().getSelectedIndex());
+        System.out.println(method.toString() + ", " + args);
+        Object result = methodsImport.invokeMethod(method, args);
+
+        //textFieldRes.setText(result);
+
 
     }
 

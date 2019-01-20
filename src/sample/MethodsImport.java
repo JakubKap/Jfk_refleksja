@@ -7,7 +7,9 @@ import sample.callable.IStringOps;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.DatagramPacket;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -19,6 +21,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 public class MethodsImport {
+
+    private IMathOps myMathOps;
 
     private List<Class<?>> classes = new ArrayList<>();
 
@@ -46,6 +50,7 @@ public class MethodsImport {
                     Class<?> c = cl.loadClass(className);
 
                     if (isAssignable(c)) {
+                        //check(c);
                         classes.add(c);
                         methodList.addAll(Arrays.asList(c.getDeclaredMethods()));
                     }
@@ -92,6 +97,22 @@ public class MethodsImport {
 
     }
 
+    public boolean isAssignable(Class<?> c){
+        if(IStringOps.class.isAssignableFrom(c) ||
+                IMathOps.class.isAssignableFrom(c)||
+                ICompareOps.class.isAssignableFrom(c)||
+                IBooleanOps.class.isAssignableFrom(c))
+            return true;
+
+        else return false;
+    }
+
+    public void check(Class<?> c) throws Exception {
+        if (IMathOps.class.isAssignableFrom(c)) {
+            myMathOps = (IMathOps) c.getDeclaredConstructor().newInstance();
+        }
+    }
+
     public void importClasses(File dir){
 
         classes.clear();
@@ -105,14 +126,40 @@ public class MethodsImport {
         }
     }
 
-    public boolean isAssignable(Class<?> c){
-        if(IStringOps.class.isAssignableFrom(c) ||
-           IMathOps.class.isAssignableFrom(c)||
-           ICompareOps.class.isAssignableFrom(c)||
-           IBooleanOps.class.isAssignableFrom(c))
-            return true;
+    public String invokeMethod(Method method, Object args[]){
 
-        else return false;
+        int numOfParams = method.getParameterCount();
+        Object[] params = new Object[2];
+
+       /* if(numOfParams != args.length)
+            return null;*/
+
+        Class[] parameterTypes = method.getParameterTypes();
+
+        for(Class parameterType : parameterTypes)
+            System.out.println(parameterType.getName());
+
+        if(numOfParams == 1){
+           if(parameterTypes[0] == String.class)
+               params[0] = args[0];
+           else if (parameterTypes[0] == Boolean.class)
+               params[0] = Boolean.parseBoolean(args[0].toString());
+
+           else if(parameterTypes[0] == Double.class)
+               params[0]= Double.parseDouble(args[0].toString());
+
+           try {
+                return method.invoke(myMathOps, args[0]).toString();
+           } catch(IllegalAccessException e){
+               e.printStackTrace();
+           }  catch(InvocationTargetException e){
+               e.printStackTrace();
+           }
+
+        }
+
+
+    return "Ala";
     }
 
     public List<Method> getMethodList() {
