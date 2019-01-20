@@ -139,18 +139,12 @@ public class MethodsImport {
 
         int numOfParams = method.getParameterCount();
 
-       /* if(numOfParams != args.length)
-            return null;*/
-
         Class[] parameterTypes = method.getParameterTypes();
 
-        //for(Class parameterType : parameterTypes)
-            //if(parameterType.getTypeName().toString())
-            System.out.println("1: " + parameterTypes[0]);
-            System.out.println("2: " + boolean.class);
+        Object[] params;
 
         if(numOfParams == 1){
-            Object[] params = new Object[1];
+            params = new Object[1];
 
            if(parameterTypes[0].equals(String.class))
                params[0] = args[0];
@@ -161,27 +155,42 @@ public class MethodsImport {
                params[0] = Double.parseDouble(args[0].toString());
                System.out.println("1params[0] + " + args[0]);
            }
-            //params[0] = 2.5;
 
-            System.out.println("Params[0] " + params[0]);
-            //System.out.println(method.getDeclaringClass());
-           try {
-               return method.invoke(method.getDeclaringClass().newInstance(), params).toString();
-               //System.out.println(o.toString());
-           } catch(IllegalAccessException e){
-               e.printStackTrace();
-           }  catch(InvocationTargetException e){
-               e.printStackTrace();
-           }
-           catch(Exception e){
-               e.printStackTrace();
-           }
+        }
+        else {
+            params = new Object[2];
+
+            if (parameterTypes[0].equals(String.class))
+                params[0] = args[0];
+            else if (parameterTypes[0].equals(int.class))
+                params[0] = Integer.parseInt(args[0].toString());
+            else if (parameterTypes[0].equals(boolean.class))
+                params[0] = Boolean.parseBoolean(args[0].toString());
+
+
+            if (parameterTypes[1].equals(int.class))
+                params[1] = Integer.parseInt(args[1].toString());
+            else if (parameterTypes[1].equals(boolean.class))
+                params[1] = Boolean.parseBoolean(args[1].toString());
 
         }
 
+            try {
+                return method.invoke(method.getDeclaringClass().newInstance(), params).toString();
+            } catch(IllegalAccessException e){
+                e.printStackTrace();
+            }  catch(InvocationTargetException e){
+                e.printStackTrace();
+            }
+            catch(Exception e){
+                e.printStackTrace();
+            }
 
-    return "Ala";
-    }
+            return null;
+        }
+
+
+
 
     public List<Method> getMethodList() {
         return methodList;
