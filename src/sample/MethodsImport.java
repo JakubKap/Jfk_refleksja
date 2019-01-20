@@ -51,11 +51,6 @@ public class MethodsImport {
                     Class<?> c = cl.loadClass(className);
 
                     if (isAssignable(c)) {
-                        /*try{
-                            check(c);
-                        }catch(Exception e){
-                            e.printStackTrace();
-                        }*/
                         classes.add(c);
                         methodList.addAll(Arrays.asList(c.getDeclaredMethods()));
                     }
@@ -89,11 +84,6 @@ public class MethodsImport {
             Class<?> c = cl.loadClass(className);
 
             if(isAssignable(c)) {
-                /*try{
-                    check(c);
-                }catch(Exception e){
-                    e.printStackTrace();
-                }*/
                 classes.add(c);
                 methodList.addAll(Arrays.asList(c.getDeclaredMethods()));
             }
@@ -117,10 +107,6 @@ public class MethodsImport {
         else return false;
     }
 
-    /*public void check(Class<?> c) throws Exception {
-            if(IMathOps.class.isAssignableFrom(c))
-            myMathOps = (IMathOps) c.getDeclaredConstructor().newInstance();
-    }*/
 
     public void importClasses(File dir){
 

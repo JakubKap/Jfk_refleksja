@@ -76,14 +76,16 @@ public class Controller implements Initializable {
 
         for(Method m : methodList){
             listView.getItems().add(m.toString());
-            //System.out.println(m.getParameterCount());
+
         }
 
     }
 
     @FXML public void handleMouseClick(MouseEvent event) {
-        /*System.out.println("clicked on " + listView.getSelectionModel().getSelectedIndex()
-                + ", on position = ");*/
+        textFieldArg1.setText("");
+        textFieldArg2.setText("");
+        textFieldRes.setText("");
+
         if(methodList.get(listView.getSelectionModel().getSelectedIndex()).getParameterCount() == 1)
             textFieldArg2.setDisable(true);
 
@@ -92,10 +94,6 @@ public class Controller implements Initializable {
                 textFieldArg2.setDisable(false);
             }
 
-       /* Class[] parameterTypes = methodList.get(listView.getSelectionModel().getSelectedIndex()).getParameterTypes();
-
-        for(Class parameterType : parameterTypes)
-            System.out.println(parameterType.getName());*/
 
     }
 
@@ -107,7 +105,6 @@ public class Controller implements Initializable {
         Object[] args = new Object[]{par1, par2};
 
         Method method = methodList.get(listView.getSelectionModel().getSelectedIndex());
-        System.out.println(method.toString() + ", " + args);
         String result = methodsImport.invokeMethod(method, args);
 
         textFieldRes.setText(result);
