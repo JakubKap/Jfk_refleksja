@@ -4,6 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -42,6 +43,9 @@ public class Controller implements Initializable {
     @FXML
     TextField textFieldRes;
 
+    @FXML
+    Label wrongArgsLabel;
+
 
     MethodsImport methodsImport;
 
@@ -51,9 +55,15 @@ public class Controller implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         methodsImport = new MethodsImport();
         methodList = new ArrayList<>();
+        wrongArgsLabel.setVisible(false);
     }
 
     public void btnOpenClicked(ActionEvent event){
+
+        wrongArgsLabel.setVisible(false);
+        textFieldArg1.setText("");
+        textFieldArg2.setText("");
+        textFieldRes.setText("");
 
         if(methodList.size()>0) methodList.clear();
 
@@ -82,6 +92,7 @@ public class Controller implements Initializable {
     }
 
     @FXML public void handleMouseClick(MouseEvent event) {
+        wrongArgsLabel.setVisible(false);
         textFieldArg1.setText("");
         textFieldArg2.setText("");
         textFieldRes.setText("");
@@ -95,9 +106,13 @@ public class Controller implements Initializable {
             }
 
 
+
     }
 
     public void btnRunClicked(ActionEvent event){
+
+        if(listView.getItems().isEmpty() || listView.getSelectionModel().isEmpty())
+            return;
 
         String par1 = textFieldArg1.getText();
         String par2 = textFieldArg2.getText();
@@ -105,9 +120,15 @@ public class Controller implements Initializable {
         Object[] args = new Object[]{par1, par2};
 
         Method method = methodList.get(listView.getSelectionModel().getSelectedIndex());
-        String result = methodsImport.invokeMethod(method, args);
+        String result;
+        try {
+            result = methodsImport.invokeMethod(method, args);
+            wrongArgsLabel.setVisible(false);
+            textFieldRes.setText(result);
+        } catch (IllegalArgumentException e){
+            wrongArgsLabel.setVisible(true);
+        }
 
-        textFieldRes.setText(result);
 
 
     }

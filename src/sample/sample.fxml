@@ -17,5 +17,6 @@
             <Separator layoutY="330.0" prefHeight="3.0" prefWidth="520.0" />
             <TextField fx:id="textFieldRes" layoutX="166.0" layoutY="341.0" prefHeight="25.0" prefWidth="75.0" />
             <Label layoutX="88.0" layoutY="345.0" text="Wynik:" />
+      <Label fx:id="wrongArgsLabel" layoutX="260.0" layoutY="345.0" text="Podałeś nieprawidłowe dane!" textFill="#bf3636" />
          </children>
 </AnchorPane>
