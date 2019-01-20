@@ -108,9 +108,9 @@ public class Controller implements Initializable {
 
         Method method = methodList.get(listView.getSelectionModel().getSelectedIndex());
         System.out.println(method.toString() + ", " + args);
-        Object result = methodsImport.invokeMethod(method, args);
+        String result = methodsImport.invokeMethod(method, args);
 
-        //textFieldRes.setText(result);
+        textFieldRes.setText(result);
 
 
     }
