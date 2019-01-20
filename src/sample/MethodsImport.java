@@ -21,6 +21,7 @@ import java.util.jar.JarFile;
 public class MethodsImport {
 
     private List<Class<?>> classes = new ArrayList<>();
+
     private List<Method> methodList = new ArrayList<>();
 
     public void importJar(File dir){
@@ -46,7 +47,7 @@ public class MethodsImport {
 
                     if (isAssignable(c)) {
                         classes.add(c);
-                        methodList.addAll(Arrays.asList(c.getMethods()));
+                        methodList.addAll(Arrays.asList(c.getDeclaredMethods()));
                     }
                 }
                 catch (ClassNotFoundException exp)
@@ -56,8 +57,10 @@ public class MethodsImport {
 
             }
         }
-        catch (IOException exp)
-        { }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
 
     public void importClassFile(File file){
@@ -77,7 +80,7 @@ public class MethodsImport {
 
             if(isAssignable(c)) {
                 classes.add(c);
-                methodList.addAll(Arrays.asList(c.getMethods()));
+                methodList.addAll(Arrays.asList(c.getDeclaredMethods()));
             }
 
         }catch(MalformedURLException e){
@@ -87,10 +90,12 @@ public class MethodsImport {
             e.printStackTrace();
         }
 
-
     }
 
     public void importClasses(File dir){
+
+        classes.clear();
+        methodList.clear();
 
         for(File f : dir.listFiles()){
             if(f.getName().endsWith(".jar"))
@@ -110,7 +115,8 @@ public class MethodsImport {
         else return false;
     }
 
-
-
+    public List<Method> getMethodList() {
+        return methodList;
+    }
 
 }

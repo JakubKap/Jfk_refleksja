@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Jfk_refleksja_dependent1">
+    <output-path>$PROJECT_DIR$/out/artifacts/Jfk_refleksja_dependent1</output-path>
+    <root id="archive" name="Jfk_refleksja_dependent1.jar">
+      <element id="module-output" name="Jfk_refleksja_dependent1" />
+    </root>
+  </artifact>
+</component>

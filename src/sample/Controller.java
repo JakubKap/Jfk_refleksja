@@ -10,7 +10,9 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.lang.reflect.Method;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
@@ -30,6 +32,11 @@ public class Controller implements Initializable {
 
     MethodsImport methodsImport;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        methodsImport = new MethodsImport();
+    }
+
     public void btnOpenClicked(ActionEvent event){
 
         DirectoryChooser directoryChooser = new DirectoryChooser();
@@ -41,13 +48,21 @@ public class Controller implements Initializable {
         if(directoryChooser == null)
             return;
 
-            listView.getItems().clear();
+        listView.getItems().clear();
+
+        methodsImport.importClasses(selectedDirectory);
+
+        //zapełnienie ListView nazwami metod
+        List<Method> methodList = methodsImport.getMethodList();
+
+        for(Method m : methodList){
+            listView.getItems().add(m.toString());
+            System.out.println(m.toString());
+        }
+
+
 
 
     }
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        methodsImport = new MethodsImport();
-    }
 }
