@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +47,38 @@ public class Controller implements Initializable {
     @FXML
     Label wrongArgsLabel;
 
+    @FXML
+    Label metadaneLabel;
+
+    @FXML
+    Label nazwaLabel;
+
+    @FXML
+    Label nazwaValue;
+
+    @FXML
+    Label klasaLabel;
+
+    @FXML
+    Label klasaValue;
+
+    @FXML
+    Label returnLabel;
+
+    @FXML
+    Label returnValue;
+
+    @FXML
+    Label paramesLabel;
+
+    @FXML
+    Label paramesValue;
+
+    @FXML
+    Label interLabel;
+
+    @FXML
+    Label interValue;
 
     MethodsImport methodsImport;
 
@@ -56,6 +89,7 @@ public class Controller implements Initializable {
         methodsImport = new MethodsImport();
         methodList = new ArrayList<>();
         wrongArgsLabel.setVisible(false);
+        clearMetaData();
     }
 
     public void btnOpenClicked(ActionEvent event){
@@ -64,6 +98,7 @@ public class Controller implements Initializable {
         textFieldArg1.setText("");
         textFieldArg2.setText("");
         textFieldRes.setText("");
+        clearMetaData();
 
         if(methodList.size()>0) methodList.clear();
 
@@ -92,6 +127,9 @@ public class Controller implements Initializable {
     }
 
     @FXML public void handleMouseClick(MouseEvent event) {
+        if(listView.getSelectionModel().isEmpty())
+            return;
+
         wrongArgsLabel.setVisible(false);
         textFieldArg1.setText("");
         textFieldArg2.setText("");
@@ -104,6 +142,51 @@ public class Controller implements Initializable {
                 textFieldArg1.setDisable(false);
                 textFieldArg2.setDisable(false);
             }
+
+
+            //wypisanie metadanych metody
+
+        Method method = methodList.get(listView.getSelectionModel().getSelectedIndex());
+            String methodParameters="";
+            StringBuilder sB1 = new StringBuilder(methodParameters);
+
+            Type[] methodParams = method.getGenericParameterTypes();
+            for(int i=0; i<methodParams.length; i++)
+                sB1.append(methodParams[i].getTypeName() + " ");
+
+            methodParameters = sB1.toString();
+
+        String methodInterfaces="";
+        StringBuilder sB2 = new StringBuilder(methodInterfaces);
+
+        Type[] methodInterfs = method.getDeclaringClass().getGenericInterfaces();
+        for(int i=0; i<methodInterfs.length; i++)
+            sB2.append(methodInterfs[i] + " ");
+
+        methodInterfaces = sB2.toString();
+
+        metadaneLabel.setVisible(true);
+
+        nazwaLabel.setVisible(true);
+        nazwaValue.setVisible(true);
+        nazwaValue.setText(method.getName());
+
+        klasaLabel.setVisible(true);
+        klasaValue.setVisible(true);
+        klasaValue.setText(method.getDeclaringClass().toString().substring(6));
+
+        returnLabel.setVisible(true);
+        returnValue.setVisible(true);
+        returnValue.setText(method.getReturnType().getTypeName());
+
+        paramesLabel.setVisible(true);
+        paramesValue.setVisible(true);
+        paramesValue.setText(methodParameters);
+
+        interLabel.setVisible(true);
+        interValue.setVisible(true);
+        interValue.setText(methodInterfaces.substring(10));
+
 
 
 
@@ -129,8 +212,27 @@ public class Controller implements Initializable {
             wrongArgsLabel.setVisible(true);
         }
 
-
-
     }
+
+    public void clearMetaData(){
+        metadaneLabel.setVisible(false);
+
+        nazwaLabel.setVisible(false);
+        nazwaValue.setVisible(false);
+
+        klasaLabel.setVisible(false);
+        klasaValue.setVisible(false);
+
+        returnLabel.setVisible(false);
+        returnValue.setVisible(false);
+
+        paramesLabel.setVisible(false);
+        paramesValue.setVisible(false);
+
+        interLabel.setVisible(false);
+        interValue.setVisible(false);
+    }
+
+
 
 }
