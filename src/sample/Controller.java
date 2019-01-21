@@ -24,65 +24,65 @@ public class Controller implements Initializable {
 
 
     @FXML
-    AnchorPane anchorPane;
+    private AnchorPane anchorPane;
 
     @FXML
-    File selectedDirectory;
+    private File selectedDirectory;
 
     @FXML
-    Button btnOpen;
+    private Button btnOpen;
 
     @FXML
-    ListView listView;
+    private ListView listView;
 
     @FXML
-    TextField textFieldArg1;
+    private TextField textFieldArg1;
 
     @FXML
-    TextField textFieldArg2;
+    private TextField textFieldArg2;
 
     @FXML
-    TextField textFieldRes;
+    private TextField textFieldRes;
 
     @FXML
-    Label wrongArgsLabel;
+    private Label wrongArgsLabel;
 
     @FXML
-    Label metadaneLabel;
+    private Label metadaneLabel;
 
     @FXML
-    Label nazwaLabel;
+    private Label nazwaLabel;
 
     @FXML
-    Label nazwaValue;
+    private Label nazwaValue;
 
     @FXML
-    Label klasaLabel;
+    private Label klasaLabel;
 
     @FXML
-    Label klasaValue;
+    private Label klasaValue;
 
     @FXML
-    Label returnLabel;
+    private Label returnLabel;
 
     @FXML
-    Label returnValue;
+    private Label returnValue;
 
     @FXML
-    Label paramesLabel;
+    private Label paramesLabel;
 
     @FXML
-    Label paramesValue;
+    private Label paramesValue;
 
     @FXML
-    Label interLabel;
+    private  Label interLabel;
 
     @FXML
-    Label interValue;
+    private Label interValue;
 
-    MethodsImport methodsImport;
+    private MethodsImport methodsImport;
 
-    List<Method> methodList;
+    private List<Method> methodList;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -116,7 +116,6 @@ public class Controller implements Initializable {
 
         methodsImport.importClasses(selectedDirectory);
 
-        //zapełnienie ListView nazwami metod
         methodList = methodsImport.getMethodList();
 
         for(Method m : methodList){
@@ -138,23 +137,22 @@ public class Controller implements Initializable {
         if(methodList.get(listView.getSelectionModel().getSelectedIndex()).getParameterCount() == 1)
             textFieldArg2.setDisable(true);
 
-            else if(methodList.get(listView.getSelectionModel().getSelectedIndex()).getParameterCount() == 2){
-                textFieldArg1.setDisable(false);
-                textFieldArg2.setDisable(false);
-            }
+        else if(methodList.get(listView.getSelectionModel().getSelectedIndex()).getParameterCount() == 2){
+            textFieldArg1.setDisable(false);
+            textFieldArg2.setDisable(false);
+        }
 
 
-            //wypisanie metadanych metody
 
         Method method = methodList.get(listView.getSelectionModel().getSelectedIndex());
-            String methodParameters="";
-            StringBuilder sB1 = new StringBuilder(methodParameters);
+        String methodParameters="";
+        StringBuilder sB1 = new StringBuilder(methodParameters);
 
-            Type[] methodParams = method.getGenericParameterTypes();
-            for(int i=0; i<methodParams.length; i++)
-                sB1.append(methodParams[i].getTypeName() + " ");
+        Type[] methodParams = method.getGenericParameterTypes();
+        for(int i=0; i<methodParams.length; i++)
+            sB1.append(methodParams[i].getTypeName() + " ");
 
-            methodParameters = sB1.toString();
+        methodParameters = sB1.toString();
 
         String methodInterfaces="";
         StringBuilder sB2 = new StringBuilder(methodInterfaces);
@@ -186,9 +184,6 @@ public class Controller implements Initializable {
         interLabel.setVisible(true);
         interValue.setVisible(true);
         interValue.setText(methodInterfaces.substring(10));
-
-
-
 
     }
 
@@ -232,7 +227,4 @@ public class Controller implements Initializable {
         interLabel.setVisible(false);
         interValue.setVisible(false);
     }
-
-
-
 }

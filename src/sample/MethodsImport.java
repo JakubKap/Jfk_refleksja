@@ -9,11 +9,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.DatagramPacket;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
-import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -23,7 +21,6 @@ import java.util.jar.JarFile;
 
 public class MethodsImport {
 
-    private IMathOps myMathOps;
 
     private List<Class<?>> classes = new ArrayList<>();
 
@@ -132,16 +129,14 @@ public class MethodsImport {
         if(numOfParams == 1){
             params = new Object[1];
 
-           if(parameterTypes[0].equals(String.class))
-               params[0] = args[0];
-           else if (parameterTypes[0].equals(boolean.class))
-               params[0] = Boolean.parseBoolean(args[0].toString());
+            if(parameterTypes[0].equals(String.class))
+                params[0] = args[0];
 
-           else if(parameterTypes[0].equals(double.class)) {
-               params[0] = Double.parseDouble(args[0].toString());
-               System.out.println("1params[0] + " + args[0]);
-           }
+            else if (parameterTypes[0].equals(boolean.class))
+                params[0] = Boolean.parseBoolean(args[0].toString());
 
+            else if(parameterTypes[0].equals(double.class))
+                params[0] = Double.parseDouble(args[0].toString());
         }
         else {
             params = new Object[2];
@@ -161,21 +156,19 @@ public class MethodsImport {
 
         }
 
-            try {
-                return method.invoke(method.getDeclaringClass().newInstance(), params).toString();
-            } catch(IllegalAccessException e){
-                e.printStackTrace();
-            }  catch(InvocationTargetException e){
-                e.printStackTrace();
-            }
-            catch(Exception e){
-                e.printStackTrace();
-            }
-
-            return null;
+        try {
+            return method.invoke(method.getDeclaringClass().newInstance(), params).toString();
+        } catch(IllegalAccessException e){
+            e.printStackTrace();
+        }  catch(InvocationTargetException e){
+            e.printStackTrace();
+        }
+        catch(Exception e){
+            e.printStackTrace();
         }
 
-
+        return null;
+    }
 
 
     public List<Method> getMethodList() {
